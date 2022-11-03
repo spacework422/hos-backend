@@ -1,6 +1,5 @@
 package com.hospital.controller;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,55 +13,55 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hospital.model.Patient;
-import com.hospital.repository.PatientRepository;
+import com.hospital.model.Doctor;
+import com.hospital.repository.DoctorRepository;
 import com.hospital.exception.ResourceNotFoundException; 
   
 @RestController
-@RequestMapping("/patientcontroller")
+@RequestMapping("/doctorcontroller")
 @CrossOrigin
-public class PatientController {
+public class DoctorController {
 	
 	@Autowired
-	private PatientRepository prepo;
+	private DoctorRepository drepo;
 	
 	//Get - 
-	//http://localhost:7075/hospital/patientcontroller/getpatient
-	@GetMapping("/getpatient")
-	public List<Patient> getAllProducts() {
-		return prepo.findAll(); 
+	//http://localhost:7075/hospital/doctorcontroller/getdoctor
+	@GetMapping("/getdoctor")
+	public List<Doctor> getAllProducts() {
+		return drepo.findAll(); 
 	} 
 	
 	//POST - 
-	//http://localhost:7075/hospital/patientcontroller/patientregister
-	@PostMapping("/patientregister")
-    public Patient saveProduct(@Validated @RequestBody Patient patient) {
-     return prepo.save(patient);
+	//http://localhost:7075/hospital/doctorcontroller/doctorregister
+	@PostMapping("/doctorregister")
+    public Doctor saveProduct(@Validated @RequestBody Doctor doctor) {
+     return drepo.save(doctor); 
                     
 	}
 	
 	//Get By ID - 
-	//http://localhost:7075/hospital/patientcontroller/getbyid/{id}
+	//http://localhost:7075/hospital/doctorcontroller/getbyid/{id}
 	@GetMapping("/getbyid/{id}")
-    public ResponseEntity<Patient> getProductById(@PathVariable(value="id") Integer pId)
+    public ResponseEntity<Doctor> getProductById(@PathVariable(value="id") Integer dId)
     		throws ResourceNotFoundException
     		{
-		      Patient patient =prepo.findById(pId).  //findById()  method is predefined in jpa in build
+		      Doctor doctor =drepo.findById(dId).  //findById()  method is predefined in jpa in build
     			         orElseThrow(() -> new ResourceNotFoundException
-    			          ("patient  Not Found for this Id: "+ String.valueOf(pId)));
+    			          ("doctor  Not Found for this Id: "+ String.valueOf(dId)));
     	             
-    	             return ResponseEntity.ok().body(patient);     
+    	             return ResponseEntity.ok().body(doctor);     
     		}
 	
 	//Post verify user id
-	//http://localhost:7075/hospital/patientcontroller/userlogin
-	   @PostMapping("/userlogin")
-	    public Boolean loginUser(@Validated @RequestBody Patient patient) 
+	//http://localhost:7075/hospital/doctorcontroller/doctorlogin
+	   @PostMapping("/doctorlogin")
+	    public Boolean loginUser(@Validated @RequestBody Doctor doctor) 
 	    {
 	        Boolean a=false;;
-	        String name=patient.getName();
-	        String password=patient.getPassword();
-	        Patient b = prepo.findByName(name);
+	        String name=doctor.getName();
+	        String password=doctor.getPassword();
+	        Doctor b = drepo.findByName(name);
 	        if(b==null) {
 	        	return a;
 	        }
