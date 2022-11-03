@@ -10,5 +10,5 @@ import com.hospital.model.Patient;
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, Integer>{
 	
-
+	public Patient findByName(String name);
 }
